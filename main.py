@@ -1,3 +1,5 @@
+import os
+
 from playwright.sync_api import sync_playwright
 from urllib.request import urlretrieve
 
@@ -16,8 +18,12 @@ links = page.locator("xpath=//a[contains(@href, 'arxiv.org/pdf')]").all()
 #   urls = link.get_attribute("href")
 #   urlretrieve(urls, "data/" + urls[-5:] + ".pdf")
 
+# create the data directory if it doesn't exist
+os.makedirs("data", exist_ok=True)
+
 urls = [ link.get_attribute("href") for link in links ]
-[ urlretrieve(url, "data/" + url[-5:] + ".pdf") for url in urls ]
+print(f"Urls: { urls }")
+[ urlretrieve(url, "data/" + url[-5:] + ".pdf") for url in urls ] or pirnt(f'Error getting { url }')
 
 print(f"Page title: { page.title() }")
 
